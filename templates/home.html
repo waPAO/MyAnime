@@ -4,17 +4,17 @@
 <div class="jumbotron">
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html"><img src="static/MyAnime (1).png" width="175" height="175"></a>
+            <a class="navbar-brand" href="{{ url_for('index') }}"><img src="static/MyAnime (1).png" width="175" height="175"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link" href="{{ url_for('index') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="MyShows.html">My Shows</a>
+                        <a class="nav-link" href="{{ url_for('user_shows') }}">My Shows</a>
                     </li>
                 </ul>
             </div>
@@ -30,7 +30,7 @@
                 jot down summaries of each show. Not only does this make distinguishing your favorite animes
                 much easier, but it also makes remembering each show less of a hassle!
             </p>
-            <button class="btn btn-primary btn-lg" type='submit' style='margin-top: 5px;'>Get Started</button>
+            <a href="{{ url_for('user_shows') }}" class="btn btn-primary btn-lg" type='submit' style='margin-top: 5px;'>Get Started</a>
         </div>
     </div>
 </div>

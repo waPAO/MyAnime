@@ -3,6 +3,16 @@
 {% block content %}
     {% include 'partials/navbar.html' %}
 
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-success m-3" role="alert">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <div class="col-md-12 text-center" style="margin-top: 20px;">
         <h1 style="font-size: 50px;">My Shows</h1>
         <p>The place to keep track of all your past, current, and upcoming shows.</p>
