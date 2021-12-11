@@ -1,0 +1,55 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.jumbotron {
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.8)),url('/static/yourNameBackGround.jpeg');
+    background-position: center;
+    background-size: cover;
+}
+
+.navbar-nav {
+    padding-right: 10px;
+}
+
+.navbar-nav li {
+    padding: 0 40px;
+}
+
+.navbar-nav li a {
+    font-size: 20px;
+    color: white;
+    font-weight: 300;
+    float: right;
+    text-align: left;
+    padding-right: 0px;
+}
+
+.fa-bars {
+    color: white;
+    font-size: 25px;
+}
+
+.web-title {
+    padding-top: 8%;
+    color: white;
+    letter-spacing: 23px;
+    font-size: 150px;
+    font-weight: lighter;
+    line-height: 80%;
+}
+
+.info {
+    color: white;
+    font-size: 26px;
+    font-weight: lighter;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.show {
+    margin-right: 25px;
+    margin-top: 15px;
+}
