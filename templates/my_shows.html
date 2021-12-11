@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'partials/navbar.html' %}
+
+    <div class="col-md-12 text-center" style="margin-top: 20px;">
+        <h1 style="font-size: 50px;">My Shows</h1>
+        <p>The place to keep track of all your past, current, and upcoming shows.</p>
+    </div>
+
+    <h3 style="margin-left: 80px;">Watched Shows</h3>
+    <div class="row row-cols-1 row-cols-md-4 g-4 text-center" style="margin-left: 40px;">
+        {% for show in watched_shows %}
+        <div class="col">
+            <div class="card m-3" style="width: 20rem;">
+                <div class="card-body">
+                    <h4 class="card-title" style="color:mediumblue;">{{show.title}}</h4>
+                    <p class="card-text">
+                        {{show.description}} 
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Rating: {{show.rating}}/10</small>
+                </div>
+                <form method='POST' action='/watchedshow/{{show._id}}/delete'>
+                    <button class="btn btn-secondary btn-sm" type='submit' style="margin-bottom: 15px; margin-top: 15px;">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a href = '/watchedshows/new' class="btn btn-primary float-right" type='submit' style='margin-top: 10px; margin-left: 1600px;'>Add Show</a>
+    
+    <h3 style="margin-left: 80px; margin-top: 50px;">Current Shows</h3>
+    <div class="row row-cols-1 row-cols-md-4 g-4 text-center" style="margin-left: 40px;">
+        {% for show in current_shows %}
+        <div class="col">
+            <div class="card m-3" style="width: 20rem;">
+                <div class="card-body">
+                    <h4 class="card-title" style="color:red;">{{show.title}}</h4>
+                    <p class="card-text">
+                        {{show.description}} 
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Rating: {{show.rating}}/10</small>
+                </div>
+                <form method='POST' action='/currentshow/{{show._id}}/delete'>
+                    <button class="btn btn-secondary btn-sm" type='submit' style="margin-bottom: 15px; margin-top: 15px;">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a href = '/currentshows/new' class="btn btn-primary float-right" type='submit' style='margin-top: 10px; margin-left: 1600px;'>Add Show</a>
+    
+    <h3 style="margin-left: 80px; margin-top: 50px;">Future Shows</h3>
+    <div class="row row-cols-1 row-cols-md-4 g-4 text-center" style="margin-left: 40px;">
+        {% for show in future_shows %}
+        <div class="col">
+            <div class="card m-3" style="width: 20rem;">
+                <div class="card-body">
+                    <h4 class="card-title" style="color:forestgreen;">{{show.title}}</h4>
+                    <p class="card-text">
+                        {{show.description}} 
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Prediction: {{show.rating}}/10</small>
+                </div>
+                <form method='POST' action='/futureshow/{{show._id}}/delete'>
+                    <button class="btn btn-secondary btn-sm" type='submit' style="margin-bottom: 15px; margin-top: 15px;">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a href = '/futureshows/new' class="btn btn-primary float-right" type='submit' style='margin-top: 10px; margin-left: 1600px; margin-bottom: 40px;'>Add Show</a>
+{% endblock %}

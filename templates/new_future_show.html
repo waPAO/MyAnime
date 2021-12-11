@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'partials/navbar.html' %}
+
+    <div class="row">
+        <div class="col-md-6" style="margin-left: 20px;">
+            <form method="POST" action='/futureshows'>
+                <fieldset>
+                    <h3 style="margin-top: 25px;">Add a Future Show</h3>
+    
+                    <p>
+                        <label for="title">Enter Title</label>
+                        <br>
+                        <input type ="text" name ="title"/>
+                    </p>
+    
+                    <p>
+                        <label for="description">Enter Description</label>
+                        <br>
+                        <textarea type ="text" name ="description" class="form-control"></textarea>
+                    </p>
+
+                    <p>
+                        <label for="rating">Enter Prediction (out of 10)</label>
+                        <br>
+                        <input type="text" name="rating"/>
+                    </p>
+
+                </fieldset>
+    
+                <p>
+                    <button class="btn btn-primary" type='submit'>Add Show</button>
+                </p>
+            </form>
+        </div>
+    </div>
+        
+{%  endblock %}
