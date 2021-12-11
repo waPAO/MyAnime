@@ -14,14 +14,15 @@ future_shows = db.future_shows
 
 app = Flask(__name__)
 
-IMG_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-UPLOAD_FOLDER = '/static/uploads/'
-
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def check_img(img_file):
-    return '.' in img_file and img_file.rsplit('.', 1)[1].lower() in IMG_EXTENSIONS
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('500.html'), 500
 
 @app.route('/')
 def index():
@@ -45,6 +46,7 @@ def submit_watched_show():
             'rating': request.form.get('rating')
         }
     watched_shows.insert_one(watched_show)
+    flash(f'{watched_show["title"]} was successfully added to watched shows!')
     return redirect(url_for('user_shows'))
 
 @app.route('/watchedshow/<watchedshow_id>/delete', methods=['POST'])
@@ -66,6 +68,7 @@ def submit_current_show():
             'rating': request.form.get('rating')
         }
     current_shows.insert_one(current_show)
+    flash(f'{current_show["title"]} was successfully added to current shows!')
     return redirect(url_for('user_shows'))
 
 @app.route('/currentshow/<currentshow_id>/delete', methods=['POST'])
@@ -87,6 +90,7 @@ def submit_future_show():
             'rating': request.form.get('rating')
         }
     future_shows.insert_one(future_show)
+    flash(f'{future_show["title"]} was successfully added to future shows!')
     return redirect(url_for('user_shows'))
 
 @app.route('/futureshow/<futureshow_id>/delete', methods=['POST'])
