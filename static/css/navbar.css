@@ -1,0 +1,21 @@
+.navbar-nav {
+    padding-right: 10px;
+}
+
+.navbar-nav li {
+    padding: 0 40px;
+}
+
+.navbar-nav li a {
+    font-size: 20px;
+    color: white;
+    font-weight: 300;
+    float: right;
+    text-align: left;
+    padding-right: 0px;
+}
+
+.fa-bars {
+    color: white;
+    font-size: 25px;
+}
