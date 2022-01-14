@@ -5,15 +5,19 @@ from werkzeug.utils import secure_filename
 import urllib.request
 import os
 
+UPLOAD_FOLDER = '/path/to/the/uploads'
+ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
 client = MongoClient()
 db = client.MyAnime
 
 watched_shows = db.watched_shows
 current_shows = db.current_shows
 future_shows = db.future_shows
+users = db.users
 
 app = Flask(__name__)
-
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.errorhandler(404)
@@ -94,7 +98,7 @@ def submit_future_show():
     return redirect(url_for('user_shows'))
 
 @app.route('/futureshow/<futureshow_id>/delete', methods=['POST'])
-def delete_charity(futureshow_id):
+def delete_show(futureshow_id):
     future_shows.delete_one({'_id': ObjectId(futureshow_id)})
     return redirect(url_for('user_shows'))
 
