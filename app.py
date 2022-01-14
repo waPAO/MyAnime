@@ -7,10 +7,9 @@ from os import path, environ
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
-local_uri = 'mongodb://localhost:27017/MyAnime'
-uri = environ.get('MONGODB_URI', local_uri)
+uri = environ.get('MONGODB_URI', 'mongodb://localhost:27017/MyAnime')
 client = MongoClient(uri)
-db = client.MyAnime
+db = client.get_default_database()
 
 watched_shows = db.watched_shows
 current_shows = db.current_shows
