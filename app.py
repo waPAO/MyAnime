@@ -145,7 +145,7 @@ def submit_current_show():
             return redirect(url_for(new_watched_show))
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(path.join(app.config['UPLOAD_FOLDER'], filename))
 
     current_show = {
             'image': file.filename,
@@ -181,7 +181,7 @@ def submit_future_show():
             return redirect(url_for(new_watched_show))
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(path.join(app.config['UPLOAD_FOLDER'], filename))
 
     future_show = {
             'image': file.filename,
