@@ -32,6 +32,14 @@ def page_not_found(e):
 def index():
     return render_template('home.html')
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/signup')
+def sign_up():
+    return render_template('sign_up.html')
+
 @app.route('/myshows')
 def user_shows():
     return render_template('my_shows.html', watched_shows=watched_shows.find(), current_shows=current_shows.find(), future_shows=future_shows.find())
@@ -39,7 +47,6 @@ def user_shows():
 @app.route('/watchedshows/new')
 def new_watched_show():
     return render_template('new_watched_show.html')
-
 
 @app.route('/watchedshows', methods=['POST'])
 def submit_watched_show():
@@ -62,7 +69,6 @@ def delete_watched_show(watchedshow_id):
 def new_current_show():
     return render_template('new_current_show.html')
 
-
 @app.route('/currentshows', methods=['POST'])
 def submit_current_show():
     current_show = {
@@ -83,7 +89,6 @@ def delete_currentshow(currentshow_id):
 @app.route('/futureshows/new')
 def new_future_show():
     return render_template('new_future_show.html')
-
 
 @app.route('/futureshows', methods=['POST'])
 def submit_future_show():
