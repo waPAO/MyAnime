@@ -1,14 +1,15 @@
-from flask import Flask, render_template, url_for, redirect, request, flash
+from flask import Flask, render_template, url_for, redirect, request, flash, session
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
-import urllib.request
-import os
+from os import path, environ
 
-UPLOAD_FOLDER = '/path/to/the/uploads'
+UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
-client = MongoClient()
+local_uri = 'mongodb://localhost:27017/MyAnime'
+uri = environ.get('MONGODB_URI', local_uri)
+client = MongoClient(uri)
 db = client.MyAnime
 
 watched_shows = db.watched_shows
@@ -19,6 +20,9 @@ users = db.users
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -36,22 +40,80 @@ def index():
 def login():
     return render_template('login.html')
 
+@app.route('/login', methods=['POST'])
+def check_user():
+    if session.get('email'):
+        return redirect(url_for('user_shows'))
+
+    email = users.find_one({'email': request.form.get('email')})
+    password = users.find_one({'password': request.form.get('password')})
+    if not email or not password:
+        flash('Please enter correct email and/or password', 'danger')
+        return redirect(url_for('login'))
+
+    session['email'] = email.get('email', 'danger')
+    return redirect(url_for('user_shows'))
+
 @app.route('/signup')
 def sign_up():
     return render_template('sign_up.html')
 
+@app.route('/newUser', methods=['POST'])
+def user_new():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    if users.find_one({'email': email}):
+        flash('That email is already in use. Please use another', 'info')
+        return redirect(url_for('sign_up'))
+    elif users.find_one({'username': username}):
+        flash('That username is already in use. Please use another', 'info')
+        return redirect(url_for('sign_up'))
+
+    user = {
+        'name': name,
+        'email': email,
+        'username': username,
+        'password': password
+    }
+    users.insert_one(user)
+    return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    session.pop('email', None)
+    flash('You have been logged out!', 'success')
+    return redirect(url_for('index'))
+
 @app.route('/myshows')
 def user_shows():
-    return render_template('my_shows.html', watched_shows=watched_shows.find(), current_shows=current_shows.find(), future_shows=future_shows.find())
+    return render_template('my_shows.html', watched_shows=watched_shows.find(), current_shows=current_shows.find(), future_shows=future_shows.find(), user=users.find_one({'email': session.get('email')}))
 
 @app.route('/watchedshows/new')
 def new_watched_show():
     return render_template('new_watched_show.html')
 
-@app.route('/watchedshows', methods=['POST'])
+@app.route('/watchedshows', methods=['GET', 'POST'])
 def submit_watched_show():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part', 'danger')
+            return redirect(url_for(new_watched_show))
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file', 'danger')
+            return redirect(url_for(new_watched_show))
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(path.join(app.config['UPLOAD_FOLDER'], filename))
+    
     watched_show = {
-            'image': request.form.get('image'),
+            'image': file.filename,
             'title': request.form.get('title'),
             'description': request.form.get('description'),
             'rating': request.form.get('rating')
@@ -71,8 +133,23 @@ def new_current_show():
 
 @app.route('/currentshows', methods=['POST'])
 def submit_current_show():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part', 'danger')
+            return redirect(url_for(new_watched_show))
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file', 'danger')
+            return redirect(url_for(new_watched_show))
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
     current_show = {
-            'image': request.form.get('image'),
+            'image': file.filename,
             'title': request.form.get('title'),
             'description': request.form.get('description'),
             'rating': request.form.get('rating')
@@ -92,8 +169,23 @@ def new_future_show():
 
 @app.route('/futureshows', methods=['POST'])
 def submit_future_show():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part', 'danger')
+            return redirect(url_for(new_watched_show))
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file', 'danger')
+            return redirect(url_for(new_watched_show))
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
     future_show = {
-            'image': request.form.get('image'),
+            'image': file.filename,
             'title': request.form.get('title'),
             'description': request.form.get('description'),
             'rating': request.form.get('rating')

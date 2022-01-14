@@ -14,7 +14,7 @@
     {% endwith %}
 
     <div class="col-md-12 text-center" style="margin-top: 20px;">
-        <h1 style="font-size: 50px;">My Shows</h1>
+        <h1 style="font-size: 50px;">{{user.username}}'s Shows</h1>
         <p>The place to keep track of all your past, current, and upcoming shows.</p>
     </div>
 
@@ -23,6 +23,7 @@
         {% for show in watched_shows %}
         <div class="col">
             <div class="card m-3" style="width: 20rem;">
+                <img src="static/uploads/{{show.image}}" class="card-img-top" alt="..." style="height: 25rem;">
                 <div class="card-body">
                     <h4 class="card-title" style="color:mediumblue;">{{show.title}}</h4>
                     <p class="card-text">
@@ -46,6 +47,7 @@
         {% for show in current_shows %}
         <div class="col">
             <div class="card m-3" style="width: 20rem;">
+                <img src="static/uploads/{{show.image}}" class="card-img-top" alt="..." style="height: 25rem;">
                 <div class="card-body">
                     <h4 class="card-title" style="color:red;">{{show.title}}</h4>
                     <p class="card-text">
@@ -69,6 +71,7 @@
         {% for show in future_shows %}
         <div class="col">
             <div class="card m-3" style="width: 20rem;">
+                <img src="static/uploads/{{show.image}}" class="card-img-top" alt="..." style="height: 25rem;">
                 <div class="card-body">
                     <h4 class="card-title" style="color:forestgreen;">{{show.title}}</h4>
                     <p class="card-text">
@@ -86,4 +89,5 @@
         {% endfor %}
     </div>
     <a href = '/futureshows/new' class="btn btn-primary float-right" type='submit' style='margin-top: 10px; margin-left: 1600px; margin-bottom: 40px;'>Add Show</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-secondary" style="margin-left: 25px; margin-bottom: 20px;">Logout</a>
 {% endblock %}

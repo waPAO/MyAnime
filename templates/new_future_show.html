@@ -5,10 +5,15 @@
 
     <div class="row">
         <div class="col-md-6" style="margin-left: 20px;">
-            <form method="POST" action='/futureshows'>
+            <form method="POST" action='/futureshows' enctype=multipart/form-data>
                 <fieldset>
                     <h3 style="margin-top: 25px;">Add a Future Show</h3>
-    
+                    <p>
+                        <label for="title">Upload Image</label>
+                        <br>
+                        <input type="file" name="file"/>
+                    </p>
+
                     <p>
                         <label for="title">Enter Title</label>
                         <br>
