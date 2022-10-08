@@ -26,3 +26,16 @@ In **Future Shows** add all your planned to watch shows with a description of ho
 <img src ='https://github.com/waPAO/MyAnime-App/blob/main/future.png' width="1000" height="350">
 
 
+## Docker Setup
+1. Clone Repo
+2. Compose the Docker Container
+```
+docker-compose up
+```
+3. Use http://localhost:5000
+
+### Caprover
+- https://myanime.dev.paolosigua.tech
+
+# FreshPing Status Page
+- https://statuspage.freshping.io/63557-MyAnime
