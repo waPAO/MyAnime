@@ -33,9 +33,3 @@ In **Future Shows** add all your planned to watch shows with a description of ho
 docker-compose up
 ```
 3. Use http://localhost:5000
-
-### Caprover
-- https://myanime.dev.paolosigua.tech
-
-# FreshPing Status Page
-- https://statuspage.freshping.io/63557-MyAnime
